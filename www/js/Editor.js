@@ -446,6 +446,7 @@ Editor.prototype.readGraphState = function (node) {
  * Sets the XML node for the current diagram.
  */
 Editor.prototype.setGraphXml = function (node) {
+	alert('根据xml绘制图形')
 	if (node != null) {
 		var dec = new mxCodec(node.ownerDocument);
 
@@ -462,8 +463,7 @@ Editor.prototype.setGraphXml = function (node) {
 			finally {
 				this.graph.model.endUpdate();
 			}
-
-			this.fireEvent(new mxEventObject('resetGraphView'));
+			// this.fireEvent(new mxEventObject('resetGraphView'));
 		}
 		else if (node.nodeName == 'root') {
 			this.resetGraph();
@@ -495,14 +495,15 @@ Editor.prototype.setGraphXml = function (node) {
  * Returns the XML node that represents the current diagram.
  */
 Editor.prototype.getGraphXml = function (ignoreSelection) {
+	console.log(ignoreSelection)
 	ignoreSelection = (ignoreSelection != null) ? ignoreSelection : true;
 	var node = null;
 
 	if (ignoreSelection) {
 		var enc = new mxCodec(mxUtils.createXmlDocument());
 		node = enc.encode(this.graph.getModel());
-		console.log(this.graph.getModel())
-		console.log(enc.encode(this.graph.getModel()))
+		console.log(this.graph.getModel());
+		console.log(node);
 	}
 	else {
 		node = this.graph.encodeCells(mxUtils.sortCells(this.graph.model.getTopmostCells(
@@ -512,8 +513,6 @@ Editor.prototype.getGraphXml = function (ignoreSelection) {
 	if (this.graph.view.translate.x != 0 || this.graph.view.translate.y != 0) {
 		node.setAttribute('dx', Math.round(this.graph.view.translate.x * 100) / 100);
 		node.setAttribute('dy', Math.round(this.graph.view.translate.y * 100) / 100);
-		// 修改添加
-		node.setAttribute('id', '1024')
 	}
 
 	node.setAttribute('grid', (this.graph.isGridEnabled()) ? '1' : '0');
@@ -531,7 +530,7 @@ Editor.prototype.getGraphXml = function (ignoreSelection) {
 	if (this.graph.background != null) {
 		node.setAttribute('background', this.graph.background);
 	}
-	console.log(node)
+	console.log(node);
 	return node;
 };
 

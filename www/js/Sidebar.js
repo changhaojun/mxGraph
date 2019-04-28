@@ -67,9 +67,11 @@ function Sidebar(editorUi, container) {
  * Adds all palettes to the sidebar.
  */
 Sidebar.prototype.init = function () {
+	console.log(this.editorUi.editor)
 	var dir = STENCIL_PATH;
 
 	this.addSearchPalette(true);
+	this.addXmlPalette(true);
 	this.addGeneralPalette(true);
 	this.addMiscPalette(false);
 	this.addAdvancedPalette(false);
@@ -770,6 +772,36 @@ Sidebar.prototype.addSearchPalette = function (expand) {
 	// Keeps references to the DOM nodes
 	this.palettes['search'] = [elt, outer];
 };
+
+
+/**
+ * 添加自定义按钮
+ */
+Sidebar.prototype.addXmlPalette = function (expand) {
+
+	var div = document.createElement('div');
+	div.className = 'geSidebar';
+	div.style.boxSizing = 'border-box';
+	div.style.overflow = 'hidden';
+	div.style.width = '100%';
+	div.style.padding = '8px';
+	div.style.paddingTop = '14px';
+	div.style.paddingBottom = '14px';
+
+	if (!expand) {
+		div.style.display = 'none';
+	}
+
+	const btn = mxUtils.button('XML', () => {
+		var xml = mxUtils.getXml(this.editorUi.editor.getGraphXml());
+		console.log(xml)
+	});
+
+	div.appendChild(btn);
+	this.container.appendChild(div);
+}
+
+
 
 /**
  * Adds the general palette to the sidebar.

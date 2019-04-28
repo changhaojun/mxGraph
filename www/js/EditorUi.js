@@ -6,7 +6,6 @@
  */
 EditorUi = function (editor, container, lightbox) {
 	mxEventSource.call(this);
-
 	this.destroyFunctions = [];
 	this.editor = editor || new Editor();
 	this.container = container || document.body;
@@ -3047,10 +3046,9 @@ EditorUi.prototype.save = function (name) {
 		if (this.editor.graph.isEditing()) {
 			this.editor.graph.stopEditing();
 		}
-
+		console.log(this.editor)
 		var xml = mxUtils.getXml(this.editor.getGraphXml());
 		console.log(xml)
-		alert(1)
 		try {
 			if (Editor.useLocalStorage) {
 				if (localStorage.getItem(name) != null &&
